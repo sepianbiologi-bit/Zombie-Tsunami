@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Zombie Rush</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; background: #000; overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; }
+  body { display: flex; align-items: center; justify-content: center; font-family: system-ui, "Segoe UI", Roboto, sans-serif; }
+
+  #game {
+    position: relative;
+    width: min(100vw, 177.78vh);
+    width: min(100vw, 177.78dvh);
+    aspect-ratio: 16 / 9;
+    font-size: calc(min(100vw, 177.78vh) / 60);
+    font-size: calc(min(100vw, 177.78dvh) / 60);
+    background: #140a2e;
+  }
+  canvas { display: block; width: 100%; height: 100%; }
+
+  .overlay {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; color: #fff; gap: .6em;
+    background: rgba(10, 5, 25, .74);
+    padding: 1em;
+  }
+  .overlay.hidden { display: none; }
+  h1 { font-size: 4.2em; letter-spacing: .08em; color: #8fe36b; text-shadow: 0 .06em 0 #2c5a1f, 0 0 .5em rgba(143,227,107,.5); }
+  h2 { font-size: 3em; color: #ff6b6b; text-shadow: 0 .06em 0 #5a1f1f; }
+  .overlay p { font-size: 1.5em; line-height: 1.35; }
+  .overlay ul { list-style: none; font-size: 1.25em; line-height: 1.6; color: #d9d2ff; }
+  .overlay b { color: #ffd166; }
+  .blink { margin-top: .4em; color: #8fe36b; font-weight: 700; animation: blink 1.1s infinite; }
+  @keyframes blink { 50% { opacity: .25; } }
+
+  #mute {
+    position: absolute; top: .6em; right: .6em;
+    font-size: 2em; line-height: 1; padding: .2em .3em;
+    background: rgba(0,0,0,.45); border: none; border-radius: .4em; color: #fff; cursor: pointer;
+  }
+  #rotate { display: none; font-size: 1.2em; color: #ffd166; }
+  @media (orientation: portrait) { #rotate { display: block; } }
+</style>
+</head>
+<body>
+  <div id="game">
+    <canvas id="canvas" width="960" height="540"></canvas>
+
+    <div id="menu" class="overlay">
+      <h1>ZOMBIE RUSH</h1>
+      <p>Berlari, makan manusia, dan bangun gerombolan zombie terbesar!</p>
+      <ul>
+        <li>🧍 Sentuh manusia → jadi zombie baru</li>
+        <li>🧠 Ambil otak melayang → +4 zombie</li>
+        <li>🕳️ Lompati lubang &nbsp;|&nbsp; 🚗 Lompati mobil &nbsp;|&nbsp; 🔫 Hindari peluru</li>
+      </ul>
+      <p id="rotate">📱 Putar HP ke mode landscape agar lebih nyaman</p>
+      <p class="blink">Ketuk layar / tekan SPASI untuk mulai</p>
+    </div>
+
+    <div id="over" class="overlay hidden">
+      <h2>Gerombolan musnah!</h2>
+      <p>Jarak: <b id="finalDist">0</b> m</p>
+      <p>Zombie terbanyak: <b id="finalMax">0</b></p>
+      <p>Rekor: <b id="finalBest">0</b> m</p>
+      <p class="blink">Ketuk layar / tekan SPASI untuk main lagi</p>
+    </div>
+
+    <button id="mute" title="Suara">🔊</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
